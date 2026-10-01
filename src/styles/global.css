@@ -1,0 +1,108 @@
+@import "tailwindcss";
+@import "@fontsource-variable/public-sans";
+@import "@fontsource-variable/bricolage-grotesque/opsz.css";
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+:root {
+  --paper: #edf0f3;
+  --raised: #f7f8fa;
+  --ink: #13203a;
+  --muted: #586378;
+  --rule: #c9d0da;
+  --accent: #2b4ee6;
+  --high: #0b7a6b;
+  --medium: #a86c12;
+  --low: #b42345;
+  --empty: #d8dde5;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0e1626;
+    --raised: #141e31;
+    --ink: #e6eaf2;
+    --muted: #98a2b6;
+    --rule: #26314a;
+    --accent: #8ca5ff;
+    --high: #3cc4ae;
+    --medium: #e3b341;
+    --low: #f0738f;
+    --empty: #26314a;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --paper: #0e1626;
+  --raised: #141e31;
+  --ink: #e6eaf2;
+  --muted: #98a2b6;
+  --rule: #26314a;
+  --accent: #8ca5ff;
+  --high: #3cc4ae;
+  --medium: #e3b341;
+  --low: #f0738f;
+  --empty: #26314a;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-raised: var(--raised);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-rule: var(--rule);
+  --color-accent: var(--accent);
+  --color-high: var(--high);
+  --color-medium: var(--medium);
+  --color-low: var(--low);
+  --color-empty: var(--empty);
+  --font-display: "Bricolage Grotesque Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Public Sans Variable", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    background: var(--paper);
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    line-height: 1.05;
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  a {
+    color: inherit;
+    text-underline-offset: 0.2em;
+    text-decoration-thickness: 1px;
+  }
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+  .tnum {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
