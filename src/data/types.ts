@@ -5,7 +5,8 @@ export type Category =
   | "preference"
   | "aggregator"
   | "computer-use"
-  | "harness";
+  | "harness"
+  | "drift";
 
 export type Trust = "high" | "medium" | "low";
 export type Independence = "independent" | "vendor-reported" | "mixed";
@@ -67,6 +68,7 @@ export const CATEGORY_LABEL: Record<Category, string> = {
   aggregator: "Aggregators",
   "computer-use": "Computer use",
   harness: "Harness vs model",
+  drift: "Drift since launch",
 };
 
 export const TRUST_LABEL: Record<Trust, string> = {

@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-01",
+  "updated": "2026-10-02",
   "hero": [
     { "benchmark": "arena-text", "label": "Arena Text", "leader": "Gemini 4 Argon" },
     { "benchmark": "arena-webdev", "label": "Code Arena WebDev", "leader": "Claude Opus 5.5" },
@@ -388,6 +388,25 @@
       "trustNote": "Repeats vendor numbers and updates unevenly across categories.",
       "lastChecked": "2026-09-28",
       "sourceUrls": ["https://www.vellum.ai/llm-leaderboard"]
+    },
+    {
+      "id": "nerf-bench",
+      "name": "Nerf Bench",
+      "org": "BridgeBench (BridgeMind)",
+      "url": "https://www.bridgebench.ai/nerf-bench",
+      "category": "drift",
+      "measures": "Re-runs a private task set after launch and reports each model's current power as a share of its launch-day result. Power blends answer quality with tokens used and cost.",
+      "currentLeader": "GPT-6.1 Sol (furthest above launch)",
+      "leaderScore": "106.7% of launch",
+      "takeaway": "Not a capability ranking: it asks whether a model got worse after release. All four tracked models sit inside the 90–110% band it counts as noise. Opus 5.5 is lowest at 94.2%, then GPT-6 Astra 98.0% and Sonnet 5.5 100.9%.",
+      "independence": "independent",
+      "trust": "medium",
+      "trustNote": "Run outside the labs, but the tasks, task count, runs per test and cadence are undisclosed, and the score mixes quality with token use and price. Started in late September 2026 and tracks only four models.",
+      "lastChecked": "2026-10-02",
+      "sourceUrls": [
+        "https://www.bridgebench.ai/nerf-bench",
+        "https://www.bridgebench.ai/blog/how-nerf-bench-works"
+      ]
     }
   ],
   "integrityIssues": [
