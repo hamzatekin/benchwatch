@@ -86,29 +86,28 @@ export default function BenchmarkList(props: Props) {
     });
   });
 
+  // Plain text tabs: the active one gets ink and an underline. Press feedback is a small scale-down.
   const chip = (active: boolean) =>
-    `rounded-full border px-3.5 py-1.5 text-sm transition-colors ${
-      active
-        ? "border-ink bg-ink text-paper"
-        : "border-rule text-muted hover:border-ink hover:text-ink"
+    `-mb-px border-b-2 py-2 text-sm transition-[color,border-color,transform] duration-150 ease-out active:scale-[0.97] ${
+      active ? "border-ink font-semibold text-ink" : "border-transparent text-muted hover:text-ink"
     }`;
 
   return (
     <div>
-      <div class="flex flex-col gap-4 border-b border-rule pb-5 md:flex-row md:items-end md:justify-between">
-        <div role="group" aria-label="Filter by category" class="flex flex-wrap gap-2">
+      <div class="flex flex-col gap-4 border-b border-rule md:flex-row md:items-end md:justify-between">
+        <div role="group" aria-label="Filter by category" class="flex flex-wrap gap-x-5">
           <button type="button" class={chip(category() === "all")} aria-pressed={category() === "all"} onClick={() => setCategory("all")}>
-            All <span class="tnum opacity-60">{props.benchmarks.length}</span>
+            All <span class="tnum font-normal text-muted">{props.benchmarks.length}</span>
           </button>
           <For each={categories()}>
             {(c) => (
               <button type="button" class={chip(category() === c)} aria-pressed={category() === c} onClick={() => setCategory(c)}>
-                {CATEGORY_LABEL[c]} <span class="tnum opacity-60">{counts()[c]}</span>
+                {CATEGORY_LABEL[c]} <span class="tnum font-normal text-muted">{counts()[c]}</span>
               </button>
             )}
           </For>
         </div>
-        <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
+        <div class="flex flex-wrap items-center gap-x-5 gap-y-2 pb-3 text-sm">
           <label class="inline-flex cursor-pointer items-center gap-2 text-muted">
             <input type="checkbox" class="size-4 accent-[var(--accent)]" checked={hideShaky()} onChange={(e) => setHideShaky(e.currentTarget.checked)} />
             Hide shaky ones
@@ -137,7 +136,7 @@ export default function BenchmarkList(props: Props) {
           each={visible()}
           fallback={
             <li class="py-12 text-muted">
-              Nothing matches these filters. Turn off “Hide shaky ones” or pick another category.
+              Nothing left with these filters. Untick "Hide shaky ones" or pick another category.
             </li>
           }
         >

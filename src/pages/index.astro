@@ -29,82 +29,106 @@ const host = (u: string) => new URL(u).hostname.replace(/^www\./, "");
 ---
 
 <Base
-  title="Benchwatch: every AI leaderboard, and how far to trust it"
-  description="One place for AI model leaderboards and benchmarks, summarised, with an honest note on how much each one can be trusted."
+  title="Benchwatch: AI leaderboards and how far to trust them"
+  description="What each AI leaderboard measures, which model leads it right now, and how much weight its numbers deserve."
 >
-  <header class="mx-auto flex max-w-6xl items-center justify-between px-4 pt-6 sm:px-6">
-    <a href="/" class="font-display text-xl font-bold tracking-tight no-underline">Benchwatch</a>
-    <p class="text-sm text-muted">Checked {formatted}</p>
+  <header class="mx-auto max-w-6xl px-4 pt-6 sm:px-6">
+    <div class="flex items-baseline justify-between gap-4 border-b border-rule pb-4">
+      <a href="/" class="font-display text-xl font-bold tracking-tight no-underline">Benchwatch</a>
+      <p class="text-sm text-muted">Data checked {formatted}</p>
+    </div>
   </header>
 
   <main>
-    <section class="mx-auto max-w-6xl px-4 pt-14 pb-16 sm:px-6 sm:pt-20" aria-labelledby="hero-title">
-      <h1 id="hero-title" class="max-w-[16ch] text-5xl font-bold tracking-tight [font-stretch:85%] sm:text-7xl">
-        The best AI model depends on who you ask.
-      </h1>
-      <p class="mt-6 max-w-[58ch] text-lg text-muted">
-        {dataset.hero.length} major leaderboards, {board.length} different winners. Benchwatch collects
-        them in one place, sums up what each one shows, and tells you how much to trust it.
-      </p>
+    <section class="mx-auto max-w-6xl px-4 pt-12 pb-16 sm:px-6 sm:pt-16" aria-labelledby="hero-title">
+      <div class="grid gap-x-12 gap-y-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
+        <div>
+          <h1 id="hero-title" class="max-w-[14ch] text-5xl font-bold tracking-tight [font-stretch:85%] sm:text-6xl">
+            Ask {dataset.hero.length} leaderboards, get {board.length} answers
+          </h1>
+          <p class="mt-6 max-w-[46ch] text-lg text-muted">
+            Each big AI leaderboard names its own best model. We read them all, write down what each one
+            actually tests, and say how much we'd rely on it.
+          </p>
+        </div>
 
-      <ol class="mt-12 grid gap-px overflow-hidden rounded-lg border border-rule bg-rule sm:grid-cols-2 lg:grid-cols-3">
-        {
-          board.map(([leader, wins]) => (
-            <li class="bg-raised p-5 sm:p-6">
-              <p class="font-display text-2xl font-semibold tracking-tight sm:text-3xl">{leader}</p>
-              <p class="tnum mt-1 text-sm text-muted">
-                #1 on {wins.length} of {dataset.hero.length}
-              </p>
-              <ul class="mt-4 flex flex-wrap gap-x-4 gap-y-1 text-sm">
-                {wins.map((w) => (
-                  <li>
-                    <a href={`#${w.benchmark}`} class="underline decoration-rule hover:decoration-ink">
-                      {w.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </li>
-          ))
-        }
-      </ol>
+        <table class="w-full self-end text-left">
+          <caption class="sr-only">Which model leads each major leaderboard</caption>
+          <thead>
+            <tr class="border-b border-ink text-sm text-muted">
+              <th scope="col" class="pb-2 font-normal">On top</th>
+              <th scope="col" class="pb-2 font-normal">Leaderboards it leads</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              board.map(([leader, wins]) => (
+                <tr class="border-b border-rule align-baseline">
+                  <th scope="row" class="py-3 pr-6 font-display text-xl font-semibold tracking-tight whitespace-nowrap sm:text-2xl">
+                    {leader}
+                  </th>
+                  <td class="py-3 text-sm">
+                    {wins.map((w, i) => (
+                      <>
+                        <a href={`#${w.benchmark}`} class="underline decoration-rule underline-offset-4 hover:decoration-ink">
+                          {w.label}
+                        </a>
+                        {i < wins.length - 1 && <span class="text-muted">, </span>}
+                      </>
+                    ))}
+                  </td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
     </section>
 
     <section class="border-y border-rule bg-raised" aria-labelledby="answers-title">
-      <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-        <h2 id="answers-title" class="text-3xl font-bold tracking-tight sm:text-4xl">Short answers</h2>
+      <div class="mx-auto max-w-6xl px-4 py-14 sm:px-6">
+        <h2 id="answers-title" class="text-3xl font-bold tracking-tight sm:text-4xl">If you just want a pick</h2>
         <p class="mt-3 max-w-[60ch] text-muted">
-          Where the evidence points as of {formatted}, weighing independent runs over vendor claims.
-          Prices are API list prices for input / output tokens.
+          Our reading of the evidence on {formatted}. Independent runs count for more than vendor claims.
+          Prices are API list prices per million input and output tokens.
         </p>
-        <div class="mt-10 grid gap-12 md:grid-cols-3 md:gap-10">
+        <dl class="mt-8 border-t border-ink">
           {
             dataset.quickAnswers.map((q) => (
-              <article>
-                <h3 class="font-sans text-base font-semibold text-muted">{q.question}</h3>
-                <p class="mt-2 font-display text-3xl font-bold tracking-tight">{q.answer}</p>
-                {q.price && <p class="tnum mt-1 font-semibold">{q.price}</p>}
-                <p class="mt-4 text-[0.95rem] leading-relaxed">{q.why}</p>
-                {q.runnerUp && <p class="mt-3 text-sm text-muted">Runner-up: {q.runnerUp}</p>}
-                <p class="mt-3 flex flex-wrap gap-x-3 gap-y-1 text-sm">
-                  {q.sources.map((s) => (
-                    <a href={s} target="_blank" rel="noopener" class="text-accent underline">
-                      {host(s)}
-                    </a>
-                  ))}
-                </p>
-              </article>
+              <div class="grid gap-x-10 gap-y-3 border-b border-rule py-7 md:grid-cols-[minmax(0,4fr)_minmax(0,8fr)]">
+                <dt>
+                  <span class="block text-muted">{q.question}</span>
+                  <span class="mt-1 block font-display text-3xl font-bold tracking-tight">{q.answer}</span>
+                  {q.price && <span class="tnum mt-1 block font-semibold">{q.price}</span>}
+                </dt>
+                <dd class="max-w-[62ch] md:pt-7">
+                  <p>{q.why}</p>
+                  {q.runnerUp && <p class="mt-2 text-sm text-muted">Runner-up: {q.runnerUp}</p>}
+                  <p class="mt-2 text-sm text-muted">
+                    Sources:{" "}
+                    {q.sources.map((s, i) => (
+                      <>
+                        <a href={s} target="_blank" rel="noopener" class="text-accent underline">
+                          {host(s)}
+                        </a>
+                        {i < q.sources.length - 1 && ", "}
+                      </>
+                    ))}
+                  </p>
+                </dd>
+              </div>
             ))
           }
-        </div>
+        </dl>
       </div>
     </section>
 
     <section class="mx-auto max-w-6xl px-4 pt-16 sm:px-6" aria-labelledby="list-title">
-      <h2 id="list-title" class="text-3xl font-bold tracking-tight sm:text-4xl">Every leaderboard</h2>
+      <h2 id="list-title" class="text-3xl font-bold tracking-tight sm:text-4xl">All {dataset.benchmarks.length} leaderboards</h2>
       <p class="mt-3 mb-8 max-w-[64ch] text-muted">
-        Each entry links to the original. Trust reflects contamination, saturation, harness dependence
-        and whether the scores are run independently.
+        Each entry links to the original. The trust rating drops when a test has leaked into training data,
+        when top models all score near the ceiling, when the agent setup moves the score a lot, or when the
+        numbers come from the vendors themselves.
       </p>
       <BenchmarkList client:idle benchmarks={dataset.benchmarks} updated={dataset.updated} />
     </section>
@@ -112,23 +136,24 @@ const host = (u: string) => new URL(u).hostname.replace(/^www\./, "");
     <section class="mx-auto max-w-6xl px-4 py-20 sm:px-6" aria-labelledby="issues-title">
       <h2 id="issues-title" class="text-3xl font-bold tracking-tight sm:text-4xl">Why scores mislead</h2>
       <p class="mt-3 max-w-[64ch] text-muted">
-        Models learn to pass tests, not always to solve tasks. These studies show how often that inflates
-        the numbers above.
+        A model can pass a benchmark's tests without solving the task, for example by finding the answer
+        online or by gaming the checker. These studies measured how often that happens.
       </p>
-      <ol class="mt-10 border-l-2 border-rule">
+      <ol class="mt-10 border-t border-ink">
         {
           issues.map((i) => (
-            <li class="relative pb-8 pl-6 last:pb-0">
-              <span class="absolute top-2 -left-[5px] size-2 rounded-full bg-ink" aria-hidden="true" />
-              <p class="tnum text-sm text-muted">
+            <li class="grid gap-x-10 gap-y-1 border-b border-rule py-5 sm:grid-cols-[7rem_minmax(0,1fr)]">
+              <p class="tnum text-sm text-muted sm:pt-1">
                 <time datetime={i.date}>{monthLabel(i.date)}</time>
               </p>
-              <h3 class="mt-1 font-sans text-lg font-semibold">
-                <a href={i.url} target="_blank" rel="noopener" class="underline decoration-rule hover:decoration-ink">
-                  {i.title}
-                </a>
-              </h3>
-              <p class="mt-1 max-w-[70ch]">{i.summary}</p>
+              <div>
+                <h3 class="font-sans text-lg font-semibold">
+                  <a href={i.url} target="_blank" rel="noopener" class="underline decoration-rule underline-offset-4 hover:decoration-ink">
+                    {i.title}
+                  </a>
+                </h3>
+                <p class="mt-1 max-w-[70ch]">{i.summary}</p>
+              </div>
             </li>
           ))
         }
@@ -136,26 +161,27 @@ const host = (u: string) => new URL(u).hostname.replace(/^www\./, "");
     </section>
   </main>
 
-  <footer class="border-t border-rule">
-    <div class="mx-auto grid max-w-6xl gap-8 px-4 py-12 text-sm text-muted sm:px-6 md:grid-cols-3">
-      <div>
+  <footer class="border-t border-rule bg-raised">
+    <div class="mx-auto grid max-w-6xl gap-10 px-4 py-12 text-sm text-muted sm:px-6 md:grid-cols-2">
+      <div class="max-w-[48ch]">
         <p class="font-display text-lg font-bold text-ink">Benchwatch</p>
-        <p class="mt-2">Data checked {formatted}. Leaderboards move every few weeks, so always open the source before deciding.</p>
-      </div>
-      <div>
-        <p class="font-semibold text-ink">How trust is rated</p>
         <p class="mt-2">
-          Solid: run independently and still separates top models. Use with care: harness-dependent,
-          partly self-reported or mixing versions. Shaky: saturated, contaminated or unmaintained.
+          Data checked {formatted}. Leaderboards change every few weeks, so open the source before you
+          decide anything.
+        </p>
+        <p class="mt-3">
+          Summaries are written by us. Scores belong to the leaderboards that publish them, and the whole
+          dataset is at <a href="/data.json" class="text-accent underline">/data.json</a>.
         </p>
       </div>
-      <div>
-        <p class="font-semibold text-ink">Use the data</p>
-        <p class="mt-2">
-          The full dataset is at <a href="/data.json" class="text-accent underline">/data.json</a>.
-          Summaries are our own wording; scores belong to the leaderboards that publish them.
-        </p>
-      </div>
+      <dl class="grid grid-cols-[auto_minmax(0,1fr)] gap-x-4 gap-y-3">
+        <dt class="font-semibold text-high">Solid</dt>
+        <dd>Run independently, and the top models still get different scores.</dd>
+        <dt class="font-semibold text-medium">Use with care</dt>
+        <dd>The score depends on the agent setup, some numbers are self-reported, or versions are mixed.</dd>
+        <dt class="font-semibold text-low">Shaky</dt>
+        <dd>Top scores are near the ceiling, the test has leaked, or nobody maintains it.</dd>
+      </dl>
     </div>
   </footer>
 </Base>

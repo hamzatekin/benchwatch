@@ -5,46 +5,46 @@
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 :root {
-  --paper: #edf0f3;
-  --raised: #f7f8fa;
-  --ink: #13203a;
-  --muted: #586378;
-  --rule: #c9d0da;
-  --accent: #2b4ee6;
-  --high: #0b7a6b;
-  --medium: #a86c12;
-  --low: #b42345;
-  --empty: #d8dde5;
+  --paper: #f4f1ea;
+  --raised: #fbf9f4;
+  --ink: #1c1b18;
+  --muted: #6a645a;
+  --rule: #dcd5c8;
+  --accent: #2a49a8;
+  --high: #1f7a4d;
+  --medium: #9a6510;
+  --low: #b3372b;
+  --empty: #e3ddd1;
   color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --paper: #0e1626;
-    --raised: #141e31;
-    --ink: #e6eaf2;
-    --muted: #98a2b6;
-    --rule: #26314a;
-    --accent: #8ca5ff;
-    --high: #3cc4ae;
-    --medium: #e3b341;
-    --low: #f0738f;
-    --empty: #26314a;
+    --paper: #161513;
+    --raised: #1e1d1a;
+    --ink: #ece7dd;
+    --muted: #a59f93;
+    --rule: #36332d;
+    --accent: #9db1ff;
+    --high: #5cc28e;
+    --medium: #e0b052;
+    --low: #f07d6e;
+    --empty: #36332d;
     color-scheme: dark;
   }
 }
 
 :root[data-theme="dark"] {
-  --paper: #0e1626;
-  --raised: #141e31;
-  --ink: #e6eaf2;
-  --muted: #98a2b6;
-  --rule: #26314a;
-  --accent: #8ca5ff;
-  --high: #3cc4ae;
-  --medium: #e3b341;
-  --low: #f0738f;
-  --empty: #26314a;
+  --paper: #161513;
+  --raised: #1e1d1a;
+  --ink: #ece7dd;
+  --muted: #a59f93;
+  --rule: #36332d;
+  --accent: #9db1ff;
+  --high: #5cc28e;
+  --medium: #e0b052;
+  --low: #f07d6e;
+  --empty: #36332d;
   color-scheme: dark;
 }
 
@@ -96,6 +96,16 @@
   }
   .tnum {
     font-variant-numeric: tabular-nums;
+  }
+  /* Briefly mark the row a hero link jumped to, so the eye lands on it. */
+  li[id]:target {
+    animation: target-flash 1.4s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+}
+
+@keyframes target-flash {
+  from {
+    background-color: var(--empty);
   }
 }
 
