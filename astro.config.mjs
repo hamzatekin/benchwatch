@@ -9,6 +9,9 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
   // "compile" optimises images at build time, so no Cloudflare Images binding is needed.
   adapter: cloudflare({ imageService: "compile" }),
+  // Nothing uses Astro sessions. Leaving them on makes the adapter add a SESSION KV binding with no id,
+  // which only `wrangler deploy` can auto-create, so preview builds (`wrangler versions upload`) failed.
+  session: false,
   integrations: [solid()],
   vite: {
     plugins: [tailwindcss()],
